@@ -23,3 +23,46 @@ select
 where department_id is not null
 group by 
 	rollup (department_id)
+
+/*
+3. Dla każdego departamentu o nr pomiędzy 10 i 50 oraz etatu pokaż sumę płacy podstawowej
+wraz z podsumowaniami dla każdej podgrupy. Usuń podsumowanie dla całości(23 wiersze)
+
+
+*/
+
+select
+	department_id,
+	job_id,
+	sum(salary)
+	from employees
+where
+	department_id between 10 and 50
+group by 
+	grouping sets ((department_id),(job_id),(department_id,job_id))
+
+
+/*
+5. Pokaż ilość pracowników dla poszczególnych regionów i krajów wraz z podsumowaniami.
+Pokaż podsumowania dla regionów i nie zapomniej o krajach, w których nikt nie jest
+zatrudniony (30 wierszy)
+
+
+*/
+
+select
+	r.region_name,
+	grouping(r.region_name),
+	c.country_name,
+	count(e.employee_id)
+from employees e join departments d on e.department_id = d.department_id
+				 join locations l on d.location_id = l.location_id
+				 right join countries c on l.country_id = c.country_id
+				 join regions r on r.region_id = c.region_id
+group by cube 
+	(r.region_name,
+	c.country_name)
+having
+	r.region_name is not null
+	or (grouping(r.region_name) = 1 and grouping(c.country_name) = 1)
+order by 1
