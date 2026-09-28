@@ -72,3 +72,40 @@ select
 		ELSE '---'
 	end result
 	from employees
+
+
+/*
+
+5. Rozwiąż wyrażenie algebraiczne: Resztę z dzielenia 134 przez 8 przemnóż przez
+pierwiastek z 81. Podziel to wszystko przez 244 i podnieś do 4 potęgi. Do wyniku
+dodaj 0.0097. Zaogrąglij wszystko do 4 miejsc po przecinku zgodnie z zasadami
+matematyki.
+
+*/
+
+select
+	ROUND(power((134%8 * sqrt(81)) / 244, 4) + 0.0097, 4) result
+
+/*
+
+6. Wiedząc, że do otrzymania nagrody trzeba pracować 10 lat pokaż dane: datę
+zatrudnienia, ile lat pracy, ile lat do nagrody oraz informacje o tym, że ktoś już
+odebrał nagrodę. Jeśli komuś do nagrody brakuje mniej niż 2 lata napisz: „jeszcze
+troszeczkę!” – (Stan na 2025-02-02)
+
+*/
+
+select
+	last_name,
+	hire_date,
+	DATEDIFF(year, hire_date, '2025-02-02') ile_lat_pracuje,
+	DATEADD(year, 10, hire_date) rok_nagrody,
+	DATEDIFF(year, '2025-02-02', DATEADD(year, 10, hire_date)),
+	CASE
+		WHEN DATEDIFF(year, '2025-02-02', DATEADD(year, 10, hire_date)) < 0 THEN 'Nagroda odebrana'
+		WHEN DATEDIFF(year, '2025-02-02', DATEADD(year, 10, hire_date)) <= 1 THEN 'Jeszcze troszeczkę'
+		ELSE concat('Jeszcze ', DATEDIFF(year, '2025-02-02', DATEADD(year, 10, hire_date)), ' lat/lata')
+	end result
+	from employees
+
+
