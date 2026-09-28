@@ -34,4 +34,4 @@ Przed szkoleniem zainstaluj:
 
 
 ```bash
-git clone https://github.com/pstarko/20-Kompleksowy-SQL-Server-JSystems.git
+git clone https://github.com/pstarko/30-SQL-Server-analiza-SII.git
