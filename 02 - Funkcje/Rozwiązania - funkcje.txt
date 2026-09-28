@@ -13,3 +13,13 @@ select
 	employee_id,
 	concat(left(job_id, 2), employee_id) code
 	from employees
+
+select
+	last_name,
+	translate(last_name, 'lmk','XXX') trans_,
+	replace(
+		replace(
+			replace(last_name, 'm','X') 
+								, 'k','X') 
+									, 'l','X') repl_
+	from employees
