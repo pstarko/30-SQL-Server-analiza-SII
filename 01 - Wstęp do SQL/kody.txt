@@ -1,0 +1,249 @@
+
+select * from employees
+
+select * from jobs
+
+select * from departments
+
+select 
+	* 
+	from employees
+
+
+select 
+	 top 5 * 
+	from employees
+
+select
+	first_name,
+	last_name,
+	salary
+from Employees
+
+
+select
+	first_name "to jest imię",
+	last_name as nazwisko,
+	placa = salary,	
+	salary + 999 z_podwyzka
+from Employees
+
+
+select
+	first_name "to jest imię",
+	last_name as nazwisko,
+	placa = salary,	
+	salary + 999 z_podwyzka
+from Employees
+where 
+	salary + 999 > 10000
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	department_id
+from Employees
+where 
+	first_name like 'S%'
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where 
+	first_name like '_e%'
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where 
+	first_name not like '_e%'
+
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where	
+	salary between 4800 and 8000
+
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where	
+	1=1 and
+	salary >= 4800 
+	and salary <= 8000
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where	
+	salary not between 4800 and 8000
+
+
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	commission_pct,
+	department_id
+from employees
+where 	
+	(department_id = 50
+	or salary > 5000)
+	and department_id <> 30
+
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where 
+	department_id IN (10,20,30)
+
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where 
+	department_id = 10
+	or department_id = 20
+	or department_id = 30
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	department_id
+from employees
+where 
+	department_id NOT IN (10,20,30)
+
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	COALESCE(commission_pct,0),
+	ISNULL(commission_pct,0),
+	salary + (salary * ISNULL(commission_pct,0)) pelna_pensja
+from employees
+
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	COALESCE(commission_pct,0),
+	ISNULL(commission_pct,0),
+	salary + (salary * ISNULL(commission_pct,0)) pelna_pensja
+from employees
+	where
+		commission_pct is null
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary,
+	COALESCE(commission_pct,0),
+	ISNULL(commission_pct,0),
+	salary + (salary * ISNULL(commission_pct,0)) pelna_pensja
+from employees
+	where
+		commission_pct is not null
+
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary
+from employees
+where department_id > 30
+order by 
+	first_name
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary
+from employees
+where department_id > 30
+order by 
+	first_name desc
+
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary
+from employees
+where department_id > 30
+order by 
+	2
+
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary
+from employees
+where department_id > 30
+order by 
+	first_name, salary desc
+
+select
+	employee_id,
+	first_name,
+	last_name,
+	salary
+from employees
+where department_id > 30
+
+select
+	distinct department_id
+	from employees
+
+
+
+
+
+
