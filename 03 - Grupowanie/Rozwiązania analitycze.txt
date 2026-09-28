@@ -1,0 +1,25 @@
+/*
+1. Pokaż sumę plac dla każdego departamentu z podsumowaniem (12 wierszy)
+
+2. Zamień NULL na wartość RESULT (12 wierszy)
+
+*/
+
+
+select
+	department_id,
+	sum(salary)
+	from employees
+where department_id is not null
+group by 
+	rollup (department_id)
+
+--2
+select
+	IIF(grouping(department_id) = 1, 'Result', CAST(department_id as VARCHAR)) dept,
+	sum(salary) suma
+	--grouping(department_id)
+	from employees
+where department_id is not null
+group by 
+	rollup (department_id)
