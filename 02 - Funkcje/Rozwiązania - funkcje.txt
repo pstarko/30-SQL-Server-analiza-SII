@@ -23,3 +23,19 @@ select
 								, 'k','X') 
 									, 'l','X') repl_
 	from employees
+
+
+/*
+
+3. Dodaj podwyżkę 15% dla każdego pracownika. Uwzględnij również
+dodatek(commission_pct). Posortuj dane po kolumnie z dodaną podwyżką, którą
+zamień na typ danych money.
+
+*/
+
+select
+	last_name,
+	CAST((salary + (salary * isnull(commission_pct,0))) * 1.15 as money) more_money
+	from employees
+order by
+	more_money
