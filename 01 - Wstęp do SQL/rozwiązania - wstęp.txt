@@ -1,0 +1,10 @@
+/*
+1. Wyświetl nazwiska i roczne dochody pracowników(salary + commission_pct). Posortuj wyniki
+po last_name (107 wierszy)
+*/
+
+select 
+	last_name,
+	(salary + (salary * ISNULL(commission_pct,0))) * 12 roczna_pensja
+	from employees
+order by last_name
