@@ -26,3 +26,61 @@ group by
 	job_id
 order by
 	srednia desc
+
+/*
+
+
+3. Wyświetl liczbę IT_PROG zatrudnionych w firmie
+*/
+
+select
+	count(employee_id)
+	from employees
+where
+	job_id = 'IT_PROG'
+
+
+/*
+4. Znajdź łączne miesięczne wynagrodzenie dla każdego działu. Nie zapomnij o
+dodatkowych zarobkach. W wyniku usuń department z wartością null (11 wierszy)
+
+*/
+
+select
+	department_id,
+	sum(salary + (salary * isnull(commission_pct,0))) result
+	from employees
+where
+	department_id is not null
+group by
+	department_id
+
+/*
+
+5. Dla każdego szefa wyświetl pensję najgorzej zarabiającego podwładnego. Sortuj
+wyniki według malejącej pensji (19 wierszy).
+*/
+
+select
+	manager_id,
+	min(salary) pensja
+	from employees
+group by
+	manager_id
+order by pensja DESC
+
+/*
+
+7. Czy istnieje dział, który zarobi łącznie ponad 50000 (salary), gdy otrzyma 10% wzrost
+każdego roku przez 10 lat? Pokaż identyfikator tego działu (7 wierszy)
+
+*/
+
+select
+	department_id,
+	sum(Salary) * power(1.1, 10)
+	from employees
+group by
+	department_id
+having
+	sum(Salary) * power(1.1, 10) > 50000
