@@ -1,0 +1,192 @@
+--Grupowanie
+
+select
+	avg(salary),
+	max(salary),
+	min(salary),
+	sum(salary),
+	count(*)
+	from employees
+
+select
+	count(*),
+	count(commission_pct),
+	count(distinct department_id)
+	from employees
+
+select
+	avg(salary)
+	from employees
+
+select 
+    department_id,
+    Sum(salary) suma
+    from employees
+group by
+	department_id
+
+select 
+    department_id,
+	job_id,
+    Sum(salary) suma
+    from employees
+group by
+	department_id,
+	job_id
+order by 1,2
+
+
+select 
+    department_id,
+    Sum(salary) suma
+    from employees
+where
+	department_id in (10,20,30)
+group by
+	department_id
+
+select 
+    department_id,
+    Sum(salary) suma
+    from employees
+group by
+	department_id
+having
+	department_id in (10,20,30)
+
+select 
+    department_id,
+    Sum(salary) suma
+    from employees
+group by
+	department_id
+having
+	Sum(salary) > 19999
+
+select 
+    department_id,
+    Sum(salary) suma
+    from employees
+where
+	department_id > 50
+group by
+	department_id
+having
+	Sum(salary) > 19999
+order by suma
+
+--Analityczne
+select 
+    department_id,
+    Sum(salary) suma
+    from employees
+where
+	department_id in (10,20,30)
+group by
+	rollup(department_id)
+
+select 
+    department_id,
+    Sum(salary) suma
+    from employees
+where
+	department_id in (10,20,30)
+group by
+	cube(department_id)
+
+
+select 
+    department_id,
+	job_id,
+    Sum(salary) suma
+    from employees
+where
+	department_id in (10,20,30)
+group by
+	rollup(department_id, job_id)
+
+
+select 
+    department_id,
+	job_id,
+    Sum(salary) suma
+    from employees
+where
+	department_id in (10,20,30)
+group by
+	cube(department_id, job_id)
+
+select * from t1
+
+SELECT 
+    department_id,
+    job_id,
+    SUM(salary) AS suma
+INTO t1
+FROM employees
+WHERE department_id IN (10, 20, 30)
+GROUP BY CUBE(department_id, job_id);
+
+
+drop table t1
+
+
+select 
+    department_id,
+	job_id,
+	grouping(department_id) grup_dept,
+	grouping(job_id) grup_job_id,
+    Sum(salary) suma
+    from employees
+where
+	department_id in (10,20,30)
+	or department_id is null
+group by
+	cube(department_id, job_id)
+
+select 
+    department_id,
+	job_id,
+	grouping(department_id) grup_dept,
+	grouping(job_id) grup_job_id,
+    Sum(salary) suma
+    from employees
+where
+	department_id in (10,20,30)
+	or department_id is null
+group by
+	cube(department_id, job_id)
+having
+	grouping(department_id) = 1
+
+
+select 
+    department_id,
+	job_id,
+	grouping(department_id) grup_dept,
+	grouping(job_id) grup_job_id,
+    Sum(salary) suma,
+	grouping_id(department_id,job_id) grup_id
+    from employees
+where
+	department_id in (10,20,30)
+	or department_id is null
+group by
+	cube(department_id, job_id)
+
+
+select 
+    department_id,
+    job_id,
+    sum(salary) sum
+    from employees
+where department_id in (10,20,30)
+group by grouping sets((department_id), (department_id, job_id), (job_id))
+
+select 
+    department_id,
+    job_id,
+    sum(salary) sum
+    from employees
+where department_id in (10,20,30)
+group by grouping sets((department_id, job_id), (job_id), ())
