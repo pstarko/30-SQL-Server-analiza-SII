@@ -1,0 +1,15 @@
+/*
+1. Dla każdego pracownika wygeneruj kod składający się z pierwszych dwóch liter job_id
+oraz całego employee_id
+
+2. Pozamieniaj litery l, m oraz k i zamień je na X. Zarówno poprzez funkcję TRANSLATE
+jak i REPLACE
+
+*/
+
+select
+	last_name,
+	job_id,
+	employee_id,
+	concat(left(job_id, 2), employee_id) code
+	from employees
