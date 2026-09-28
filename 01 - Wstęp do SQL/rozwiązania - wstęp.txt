@@ -67,3 +67,30 @@ select
 	from employees
 where
 	salary not between 2500 and 15000
+
+
+/*
+7. wyświetl nazwisko, etat(job_id) i numer departamentu tych których nazwisko kończy się na
+„an” (4 wiersze)
+
+8. wyświetl nazwisko i płace podstawową tych którzy zarabiają powyżej 10000 i mają szefa (14
+wierszy)
+*/
+--7
+
+select
+	lasT_name,
+	job_id,
+	department_id
+	from employees
+where
+	last_name like '%an'
+
+--8
+select
+	last_name,
+	salary
+	from employees
+where
+	salary > 10000
+	and manager_id is not null
