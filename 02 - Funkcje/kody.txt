@@ -1,0 +1,257 @@
+--warunkowe
+
+SELECT
+    last_name,
+    salary,
+    CASE
+        WHEN salary > 10000 THEN 'OK'
+        ELSE'---'
+    END AS warunek
+FROM
+    employees
+
+SELECT
+    last_name,
+    salary,
+    CASE
+        WHEN salary > 15000 THEN '>15k'
+        WHEN salary > 10000 THEN '>10k'
+        ELSE'---'
+    END AS warunek
+FROM
+    employees
+
+SELECT
+    last_name,
+    salary,
+    job_id,
+    CASE
+        WHEN salary > 15000 THEN '>15k'
+        WHEN salary > 10000 and job_id = 'FI_MGR' THEN '>10k'
+        ELSE'---'
+    END AS warunek
+FROM
+    employees
+
+
+select
+    department_id,
+    department_name
+from departments
+order by 
+case department_id 
+	when 30 then 19
+   	when 40 then 18
+  	else department_id end
+
+
+Select 
+    last_name,
+    salary,
+    IIF (salary>15000, 'OK', '-') warunek
+    from employees
+
+
+SELECT [Result] = IIF( 45 > 30, '45>30', null );
+
+
+select
+    nullif(4,4),
+    nullif(5,7)
+   
+
+SELECT CHOOSE ( 3, 'Manager', 'Director', 'Developer', 'Tester' ) AS Result; 
+
+SELECT GREATEST(1, 10, 35) AS GreatestVal;
+
+SELECT LEAST(1, 10, 35) AS LeastVal;
+
+--ciągi znaków
+
+select
+    first_name,
+    last_name,
+    CONCAT(first_name, last_name) fn,
+    CONCAT(first_name, ' ', salary, ', dept: ', department_id) fsd
+from employees
+
+select
+	CONCAT_WS('---',first_name, last_name) fn
+from employees
+
+SELECT
+    last_name,
+    lower(last_name) lower,
+    upper(last_name) upper
+FROM
+    employees
+
+
+SELECT
+    last_name,
+    substring(last_name,1,2) substr
+FROM
+    employees
+
+
+SELECT
+    last_name,
+    substring(last_name, 2, 2) substr
+FROM
+    employees
+
+
+SELECT
+    last_name,
+    replace(last_name, 'A','XYZ') replace,
+    replace(last_name, 'e','WWW') replace2
+FROM
+    employees
+
+
+SELECT
+    last_name,
+    translate(last_name, 'a','X') translate1,
+    translate(last_name, 'ag','12') translate2,
+    replace(last_name, 'ag','12') replace
+FROM
+    employees
+
+SELECT 
+    last_name ,
+    REPLICATE('0', 4) + last_name AS 'Last Code'  
+FROM employees 
+
+SELECT
+    last_name,
+    reverse(last_name) reverse
+FROM
+    employees
+
+SELECT
+    last_name,
+    RIGHT(last_name, 2) r,
+    LEFT(last_name, 2) l
+FROM
+    employees
+
+select 
+    last_name,
+    charindex ('a', last_name) pozycja_a,
+    charindex ('o', last_name) pozycja_o,
+    charindex ('u', last_name) pozycja_u
+from employees
+
+
+SELECT 
+    STUFF('tekst', 2, 3, ' --NowyTEKST-- '),
+    STUFF('tekst', 3, 1, ' --NowyTEKST-- ')
+
+SELECT
+    last_name,
+    len(last_name) length ,
+    datalength(last_name) dlength 
+FROM
+    employees
+
+--matematyczne
+SELECT
+    round(3.1234,2) round,
+    floor(3.1234) floor,
+    ceiling(3.1234) ceil,
+    10%7 modulo,
+    power(8,2) potega,
+    sqrt(81) pierwiastek
+
+--data i czas
+select CURRENT_DATE, CURRENT_TIMESTAMP
+
+SELECT
+    hire_date,
+    year(hire_date) rok,
+    month(hire_date) miesiac,
+    day(hire_date) dzien
+from employees
+
+SELECT
+    hire_date,
+    getdate(),
+    DATEDIFF(year, hire_date, getdate()) result_year,
+    DATEDIFF(month, hire_date, getdate()) result_month,
+    DATEDIFF(day, hire_date, getdate()) result_day
+from employees
+
+
+SELECT
+    hire_date,
+    DATEADD(year, 2, hire_date) result_year,
+    DATEADD(month, 2,hire_date) result_month,
+    DATEADD(day, 2, hire_date) result_day,
+    DATEADD(day, -2, hire_date) result_day
+from employees
+
+
+SELECT 
+	FORMAT( getdate(), 'dd/MM/yyyy' ) AS Date  
+	,FORMAT(123456789,'###-##-####') AS CustomNumber
+	,FORMAT( getdate(), 'D', 'en-US' ) USEnglish  
+    ,FORMAT( getdate(), 'D', 'en-gb' ) BritishEnglish
+
+SELECT 
+    convert(varchar, getdate(), 101), 
+    convert(varchar, getdate(), 102), 
+    convert(varchar, getdate(), 106)
+
+select
+    1 + 1,
+    '1' + 1 ,
+    '1' + '1',
+    convert(varchar,1) + convert(varchar,1),
+    CAST(1 as varchar) + CAST(1 as varchar)
+
+select
+    CURRENT_DATE
+
+
+select 
+    cast('2026-09-28' as date) + 1
+
+--VARIANT
+drop table t1
+
+create table t1 (a SQL_VARIANT)
+
+insert into t1 values (1)
+insert into t1 values ('a')
+insert into t1 values (CURRENT_TIMESTAMP)
+
+select
+t1.*,
+SQL_VARIANT_PROPERTY(t1.a, 'BaseType')
+from t1
+
+select
+    a
+    from t1
+
+
+drop table t1
+
+CREATE   TABLE t1(a sql_variant, b int)  
+
+INSERT INTO t1 values ( cast(46279.1 as decimal(8,2)), 777)  
+
+SELECT   SQL_VARIANT_PROPERTY(a,'BaseType') AS 'Base Type',  
+         SQL_VARIANT_PROPERTY(a,'Precision') AS 'Precision',  
+         SQL_VARIANT_PROPERTY(a,'Scale') AS 'Scale'  
+FROM      t1  
+WHERE     b = 777 
+
+select * from t1
+
+set statistics io off
+set statistics time off
+
+select
+    *
+    from employees , departments, jobs
