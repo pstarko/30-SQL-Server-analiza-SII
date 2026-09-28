@@ -8,3 +8,62 @@ select
 	(salary + (salary * ISNULL(commission_pct,0))) * 12 roczna_pensja
 	from employees
 order by last_name
+
+/*
+2. Wyświetl całość informacji o departamentach sortując wynik według nazw (27 wierszy)
+
+3. Wyświetl listę job_id bez duplikatów(z tabeli employees) bez departamentu 20 (17 wierszy)
+
+4. wyświetl wszystkie informacje pracownikach na etatach AC_ACCOUNT i FI_ACCOUNT i posortuj
+ich według daty zatrudnienia(malejąco) (6 wierszy)
+*/
+--2
+select
+	*
+	from departments
+order by
+	department_name
+
+--3
+select 
+	distinct job_id
+	from employees
+where
+	department_id not in (20)
+
+--4
+select
+	*
+	from employees
+where
+	job_id in ('AC_ACCOUNT', 'FI_ACCOUNT')
+	--job_id like '%ACCOUNT%'
+order by
+	hire_date desc
+
+
+/*
+5. wybierz tylko employee_id, last_name i job_id z departamentów 30,40 w kolejności rosnących
+podstawowych zarobków (7 wierszy)
+
+6. Pokaż nazwiska i płace podstawowe(salary) tych, których płace podstawowe nie mieszczą się w
+przedziale 2500 do 15000 (8 wierszy)
+*/
+--5
+select
+	employee_id, 
+	last_name,
+	job_id
+	from employees
+where
+	department_id in (30, 40)
+order by
+	salary desc
+
+--6
+select
+	last_name,
+	salary
+	from employees
+where
+	salary not between 2500 and 15000
