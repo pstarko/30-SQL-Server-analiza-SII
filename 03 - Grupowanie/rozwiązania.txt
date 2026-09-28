@@ -1,0 +1,28 @@
+/*
+1. Wyświetl najniższą i najwyższą pensję w firmie. Wyświetl informacje o różnicy między
+najlepiej i najgorzej opłacanymi pracownikami
+
+*/
+
+select
+	max(salary) maxi,
+	min(salary) mini,
+	max(salary) - min(salary) diff
+	from employees
+
+/*
+
+
+2. Wyświetl średnie wynagrodzenie dla wszystkich job_id. Sortuj wyniki według
+malejącej średniej płacy (19 wierszy).
+
+*/
+
+select
+	job_id,
+	avg(salary) srednia
+	from employees
+group by
+	job_id
+order by
+	srednia desc
