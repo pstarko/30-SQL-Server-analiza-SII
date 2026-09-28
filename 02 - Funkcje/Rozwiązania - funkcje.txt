@@ -109,3 +109,22 @@ select
 	from employees
 
 
+/*
+
+9. Pokaż last name w taki sposób, by ostatnie trzy litery były w odwróconej kolejności.
+Jeśli nazwisko ma mniej niż 3 litery odwróć całe nazwisko
+
+*/
+
+select
+	last_name,
+	CONCAT(
+		CASE
+			WHEN len(last_name) < 3 THEN substring(last_name, 1, len(last_name) - 2)
+			ELSE  substring(last_name, 1, len(last_name) - 3)
+		END,	
+		reverse(right(last_name,3))
+		) code
+	from employees
+
+
