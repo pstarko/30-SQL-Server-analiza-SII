@@ -39,3 +39,36 @@ select
 	from employees
 order by
 	more_money
+
+
+
+/*
+
+4. Policz ile dni jest zatrudniony każdy pracownik. Wyróżnij odpowiednim komentarzem
+tych, którzy pracują ponad 3000 dni (Wynik na dzień 2024-01-01). Posortuj dane po
+nazwisku.
+
+*/
+
+select
+	last_name,
+	hire_date,
+	DATEDIFF(day, hire_date, '2024-01-01') ilosc_dni,
+	CASE
+		WHEN DATEDIFF(day, hire_date, '2024-01-01') > 3000 THEN
+					CONCAT('Pracuje ', DATEDIFF(day, hire_date, '2024-01-01'), ' dni')
+		ELSE '---'
+	end result
+	from employees
+
+
+select
+	last_name,
+	hire_date,
+	DATEDIFF(day, hire_date, getdate()) ilosc_dni,
+	CASE
+		WHEN DATEDIFF(day, hire_date, getdate()) > 3000 THEN
+					CONCAT('Pracuje ', DATEDIFF(day, hire_date, '2024-01-01'), ' dni')
+		ELSE '---'
+	end result
+	from employees
