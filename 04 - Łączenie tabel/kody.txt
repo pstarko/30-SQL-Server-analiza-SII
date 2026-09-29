@@ -1,0 +1,106 @@
+--łączenie tabel
+
+--kartezjan
+select 
+	*
+from employees, departments
+order by 1
+
+--wewnętrzne z kartezjana
+select 
+	*
+from employees e, departments d
+where 
+	e.department_id=d.department_id
+
+--wewnętrzne
+select 
+	*
+from employees e JOIN departments d on e.department_id=d.department_id
+
+--wewnętrzne z kartezjana
+select 
+	*
+from employees e, departments d, jobs j
+where 
+	e.department_id=d.department_id
+	and e.job_id = j.job_id
+
+--wewnętrzne
+select 
+	*
+from employees e JOIN departments d on e.department_id=d.department_id
+				 JOIN jobs j on e.job_id = j.job_id
+
+select 
+	*
+from employees e INNER JOIN departments d on e.department_id=d.department_id
+
+select 
+	e.last_name,
+	e.salary,
+	e.job_id,
+	j.job_id,
+	j.min_salary,
+	j.max_salary
+from  employees e join jobs j  on e.salary between j.min_salary and j.max_salary
+order by 1
+
+--zewnętrzne połączenie
+select 
+	e.department_id,
+	d.department_id,
+	d.department_name
+from  employees e right join departments d on e.department_id=d.department_id
+
+select 
+	e.last_name,
+	e.department_id,
+	d.department_id,
+	d.department_name
+from  employees e left join departments d on e.department_id=d.department_id
+
+
+--FULL = wewnętrzne + zewnętrzne prawe + zewnętrzne lewe
+select 
+	e.last_name,
+	e.department_id,
+	d.department_id,
+	d.department_name
+from  employees e full join departments d on e.department_id=d.department_id
+
+
+--antyjoin
+select 
+	*
+from employees e JOIN departments d on e.department_id <> d.department_id
+order by 1
+
+--selfjoin
+select
+	e.employee_id,
+	e.last_name,
+	e.manager_id,
+	b.employee_id,
+	b.last_name,
+	b.manager_id
+from  employees e INNER HASH join employees b on e.employee_id=b.manager_id
+
+
+--połączenia wierszowe
+select department_id from departments
+union
+select department_id from employees
+
+
+select department_id from departments
+union all
+select department_id from employees
+
+select department_id from departments
+intersect
+select department_id from employees
+
+select department_id from departments
+except
+select department_id from employees
