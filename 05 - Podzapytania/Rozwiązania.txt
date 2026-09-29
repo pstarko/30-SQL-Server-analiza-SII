@@ -64,3 +64,24 @@ where
 									from departments
 								where 
 									department_name = 'Marketing'))
+
+/*
+6. Wyświetl nazwiska i pensje pracowników, którzy zarabiają co najmniej 85%
+wynagrodzenia swojego szefa(5 wierszy)
+*/
+
+select
+	e.first_name,
+	e.last_name
+	from employees e
+where
+	e.salary >= (select 0.85 * salary from employees
+					where employee_id = e.manager_id)
+
+select
+	e.first_name,
+	e.last_name
+	from employees e
+where
+	e.salary >= 0.85 * (select  salary from employees
+					where employee_id = e.manager_id)
