@@ -1,0 +1,50 @@
+/*
+1. Zbuduj zapytanie, które dla każdego pracownika pokaże jego miejsce zatrudnienia. Następnie
+utwórz ranking pracowników ze względu na zarobki bez prowizji(106 wierszy)
+
+2. Zmodyfikuj zapytanie z p. 1 w taki sposób, aby w zbiorze wynikowym pojawiła się dodatkowa
+kolumna pokazująca ranking gęsty. Zwróć uwagę na różnice w obu rankingach(106 wierszy)
+
+3. Zmodyfikuj zapytanie z poprzedniego punktu w taki sposób, aby otrzymać dane jedynie
+pięciu pierwszych pracowników w rankingu pensji (weź pod uwagę ranking zwykły)(5 wierszy)
+
+*/
+--1
+select 
+	e.first_name,
+	e.last_name,
+	e.salary,
+	l.street_address,
+	l.city,
+	rank() over (order by salary desc) rnk
+	from employees e join departments d on e.department_id=d.department_id
+					 join locations l on d.location_id=l.location_id
+	
+--2
+select 
+	e.first_name,
+	e.last_name,
+	e.salary,
+	l.street_address,
+	l.city,
+	rank() over (order by salary desc) rnk,
+	dense_rank() over (order by salary desc) drnk
+	from employees e join departments d on e.department_id=d.department_id
+					 join locations l on d.location_id=l.location_id
+
+--3
+select
+	t1.*
+	from (
+			select 
+				e.first_name,
+				e.last_name,
+				e.salary,
+				l.street_address,
+				l.city,
+				rank() over (order by salary desc) rnk,
+				dense_rank() over (order by salary desc) drnk
+				from employees e join departments d on e.department_id=d.department_id
+								 join locations l on d.location_id=l.location_id ) t1
+where
+	t1.rnk <= 5
