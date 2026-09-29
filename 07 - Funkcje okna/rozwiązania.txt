@@ -78,3 +78,34 @@ where
     t1.rnk <= 2
 group by
     t1.department_name
+
+/*
+8. Przeanalizuj zarobki w osobnych raportach
+a. Wzrost wynagrodzeń w kolejnych kwartałach(25 wierszy)
+
+b. Które kwartały bez względu na rok generowały większe zatrudnienie, utwórz ranking
+i pokaż również jaka jest różnica zatrudnień pomiędzy kwartałami 1 i 2, 2 i 3, 3 i 4
+*/
+
+select 
+    year(hire_date) rok,
+    DATEPART(QUARTER, hire_date) kwartal,
+    sum(sum(Salary)) over (order by year(hire_date), DATEPART(QUARTER, hire_date)) wzrost
+    from employees e
+group by
+    year(hire_date),
+    DATEPART(QUARTER, hire_date)
+
+
+select
+    t1.*,
+    t1.poprzednik - t1.ilosc roznica,
+    rank() over (order by t1.ilosc desc) rnk
+    from (
+        select 
+            DATEPART(QUARTER, hire_date) kwartal,
+            count(employee_id) ilosc,
+            lag(count(employee_id)) over (order by  DATEPART(QUARTER, hire_date)) poprzednik
+            from employees e
+        group by
+            DATEPART(QUARTER, hire_date) ) t1
