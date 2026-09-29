@@ -48,3 +48,36 @@ select
 								 join locations l on d.location_id=l.location_id ) t1
 where
 	t1.rnk <= 5
+
+
+/*
+5. Policz pracowników dla każdego departamentu i dodaj ranking procentowy (użyj funkcji
+PERCENT_RANK).
+
+6. Zmodyfikuj zapytanie z punktu poprzedniego w taki sposób, aby otrzymać informacje o
+departamentach, które lokują się w 25% najliczniej obsadzonych departamentów. 
+
+*/
+--5
+select
+	d.department_name,
+	COUNT(*) counter,
+	PERCENT_RANK() over (order by count(*) desc) * 100 pr
+	from employees e join departments d on e.department_id=d.department_id
+group by 
+	d.department_name
+
+
+--6
+select
+	t1.*
+	from (
+		select
+			d.department_name,
+			COUNT(*) counter,
+			PERCENT_RANK() over (order by count(*) desc) * 100 pr
+			from employees e join departments d on e.department_id=d.department_id
+		group by 
+			d.department_name ) t1
+where
+	t1.pr <= 25
