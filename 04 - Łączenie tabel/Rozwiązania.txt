@@ -93,3 +93,19 @@ select
 where
 	j.job_title in ('Accountant', 'Purchasing Clerk')
 	and (e.salary + (e.salary * isnull(e.commission_pct,0))) * 12 > 37200
+
+
+/*
+10. Pokaż te job_title, gdzie ilość zatrudnionych na to stanowisko pracowników
+przekracza liczbę 10 (3 wiersze)
+
+*/
+
+select
+	j.job_title,
+	count(e.employee_id) ilosc_zatrudnionych
+	from employees e join jobs j on e.job_id = j.job_id
+group by
+	j.job_title
+having
+	count(e.employee_id) > 10
