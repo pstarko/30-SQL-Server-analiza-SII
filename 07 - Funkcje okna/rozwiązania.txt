@@ -1,0 +1,28 @@
+/*
+1. Pokaż jak kształtowała się liczba zatrudnien w poszczególnych latach. W dodatkowej
+kolumnie dodaj narastające wartości ilości zatrudnień w sumie dla każdego roku
+
+2. Zmień powyższy raport o informacje na jaki etat zostali zatrudnieni pracownicy. Również
+dodaj kolumnę z wartościami narastającymi(47 wierszy)
+
+
+*/
+--1
+select
+	year(hire_date) rok,
+	count(employee_id) ilosc,
+	sum(count(employee_id)) over (order by year(hire_date)) suma
+	from employees
+group by 
+	year(hire_date)
+
+--2
+select
+	year(hire_date) rok,
+	j.job_title,
+	count(employee_id) ilosc,
+	sum(count(employee_id)) over (order by year(hire_date), j.job_title) suma
+	from employees e join jobs j on e.job_id = j.job_id
+group by 
+	year(hire_date), 
+	j.job_title
