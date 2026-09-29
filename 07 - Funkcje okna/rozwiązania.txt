@@ -46,3 +46,35 @@ select
 			e.salary,
 			sum(e.salary) over (order by j.job_title) suma_jobs
 			from employees e join jobs j on e.job_id = j.job_id) t1
+
+/*
+5. Pokaż raport pracowników zatrudnionych w poszczególnych departamentach (11 wierszy)
+
+6. Zaktualizuj powyższe zapytanie w taki sposób, by otrzymać tylko pierwsze dwa nazwiska
+
+*/
+--5
+SELECT
+    d.department_name,
+    STRING_AGG(last_name, ',') lista
+FROM
+    employees e join departments d on e.department_id=d.department_id
+group by
+    d.department_name
+
+
+--6
+select
+    t1.department_name,
+    STRING_AGG(last_name, ',') lista
+    from (
+    SELECT
+        d.department_name,
+        last_name,
+        rank() over (partition by d.department_name order by last_name) rnk
+    FROM
+        employees e join departments d on e.department_id=d.department_id ) t1
+where
+    t1.rnk <= 2
+group by
+    t1.department_name
