@@ -85,3 +85,31 @@ select
 where
 	e.salary >= 0.85 * (select  salary from employees
 					where employee_id = e.manager_id)
+
+
+/*
+8. Użyj skorelowanego podzapytania, aby wyświetlić informacje o pracowniku
+niezatrudnionym w żadnym dziale (wykorzystaj operatora EXISTS) (1 wiersz)
+
+9. Wyświetl numer działu, który płaci Twoim pracownikom najwięcej pieniędzy
+miesięcznie. Upewnij się, że używasz operatora ALL (1 wiersz)
+*/
+
+--8
+select
+    e.first_name,
+    e.last_name
+    from employees e 
+    where not exists 
+        (select 1 from departments 
+            where department_id = e.department_id)
+
+	
+--9
+select
+    e.department_id
+    from employees e 
+group by  e.department_id
+having sum(e.salary) >= all 
+                    (select sum(salary) from employees 
+                       group by department_id)
