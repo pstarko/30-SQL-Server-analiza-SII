@@ -1,0 +1,73 @@
+--Funkcje rankingowe
+
+SELECT
+    first_name,
+    last_name,
+    salary,
+    row_number() over (order by salary) row_number
+FROM
+    employees
+
+
+SELECT
+    first_name,
+    last_name,
+    job_id,
+    salary,
+    row_number() over (partition by job_id order by salary ) row_number
+FROM
+    employees
+
+SELECT
+    first_name,
+    last_name,
+    salary,
+    rank() over (order by salary) rank,
+    dense_rank() over (order by salary) drank
+FROM
+    employees
+
+SELECT
+    first_name,
+    last_name,
+    job_id,
+    salary,
+    rank() over (partition by job_id order by salary) pr
+    from employees
+
+SELECT
+    first_name,
+    last_name,
+    job_id,
+    salary,
+    rank() over (partition by job_id order by salary desc) pr
+    from employees
+
+
+select 
+   t1.val,
+   CUME_DIST() over (order by t1.val) cd,
+   PERCENT_RANK() over (order by t1.val) pr
+from(
+    SELECT
+        100 as val  
+    union
+    SELECT
+        200 as val  
+    union
+    SELECT
+        300 as val  
+    union
+    SELECT
+        600 as val ) t1
+
+SELECT
+    first_name,
+    last_name,
+    job_id,
+    salary,
+    ntile(4) over (order by salary ) ntile
+FROM
+    employees
+where job_id in ('FI_ACCOUNT', 'IT_PROG')
+
