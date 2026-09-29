@@ -1,0 +1,113 @@
+--Podzapytania
+
+--jednowierszowe
+select 
+	first_name,
+	last_name,
+	department_id 
+from employees 
+where
+	department_id = 
+		(select department_id from departments  
+			where department_name = 'Shipping')
+
+select 
+	first_name,
+	last_name,
+	department_id 
+from employees 
+where
+department_id in 
+	(select department_id from departments  
+		where department_name in ('Shipping','Administration'))
+
+--ANY, ALL
+select 
+    first_name,
+    last_name
+    from employees
+where salary >ANY (select salary from employees
+                            where department_id = 20)
+
+
+select 
+    first_name,
+    last_name
+    from employees
+where salary > (select min(salary) from employees
+                            where department_id = 20)
+
+set statistics io on
+select 
+    first_name,
+    last_name
+    from employees
+where salary >ALL (select salary from employees
+                            where department_id = 20)
+
+
+select 
+    first_name,
+    last_name
+    from employees
+where salary > (select max(salary) from employees
+                            where department_id = 20)
+
+--korelacja
+select 
+    first_name,
+    last_name,
+    salary,
+    department_id
+from employees e
+where salary >  (select avg(salary) from employees
+                where department_id = e.department_id)
+
+
+select 
+    *
+    from departments d
+where
+    EXISTS (select 1 from employees
+               where department_id = d.department_id)
+
+select 
+    *
+    from departments d
+where
+    NOT EXISTS (select 1 from employees
+               where department_id = d.department_id)
+
+--table derrived, column derrived
+
+select 
+    first_name,
+    last_name,
+    salary + (salary * isnull(commission_pct,0)) full_salary
+    from employees e
+where salary + (salary * isnull(commission_pct,0)) > 15000
+
+select
+    t1.*
+    from (
+            select 
+                first_name,
+                last_name,
+                salary + (salary * isnull(commission_pct,0)) full_salary
+                from employees e ) t1
+where t1.full_salary > 15000
+
+select
+    last_name,
+    (select department_name from departments where department_id = e.department_id) dn
+    from employees e
+
+select
+    last_name,
+    department_name  dn
+    from employees e join departments d on e.department_id = d.department_id
+
+
+
+
+
