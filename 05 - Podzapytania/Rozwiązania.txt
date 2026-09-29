@@ -30,3 +30,17 @@ where
 -- 109	Daniel	Faviet	DFAVIET	1.515.555.0109	2012-08-16
 
 update employees set hire_date = '2013-06-17' where employee_id = 100
+
+/*
+3. Zobacz najdłużej pracujących pracowników każdego działu. (12 wierszy)
+*/
+
+select
+	e.first_name,
+	e.last_name,
+	e.department_id,
+	e.hire_date
+	from employees e
+where
+	e.hire_date = (select min(hire_date) from employees
+					where department_id = e.department_id)
